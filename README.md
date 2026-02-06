@@ -1,36 +1,100 @@
-Fake News Detection Challenge 
+# Fake news detection with NLP
+
+**IronHack AI Engineering Bootcamp – January 2026**  
+[Project in GitHub](https://github.com/santogatobaron/NLPchallenge)
+
+---
+
+## Project Goal
+
+Build a **Natural language processing (NLP)** model to correctly identify whether pieces of news are real or fake news.
+
+Given a data set of +30k headlines from pieces of news labeled as real or fake news, the project's goals are to:
+
+  - Build different NLP models to test their performance at the task
+  - Use one of those models to detect fake news in an unlabeled data set
+  - Predict the accuracy rate of that model at detecting fake news 
 
 
- NLP Project Project OverviewThe goal of this project is to develop a robust Natural Language Processing (NLP) pipeline to classify news articles as either Real or Fake.
- 
-  On this This project we explored different approaches for text representation and classification like Word2Vec with XGBoost and TF-IDF with Naive Bayes.
+---
+
+## Project Overview
+
+- **NLP models built**
+  - TF-IDF + logistic regression
+  - TF-IDF + random forest
+  - Word2vec + Xgboost
+  - TF-IDF + Naive-Bayes 
+
+- **General preprocessing**
+  - Quick EDA of format and values
+  - Class balance check
+  - Regex filter
+  - Stopword removal
+   
+- **Preprocessing techniques tested in the models**
+  - TF-IDF vs BoW 
+  - Unigrams vs unigrams + bigrams vs n-grams 
+  - Stemmers and lemmatizers
+  - Parameter tuning (different in each model)
+
+- **Evaluation**
+  - Training and test accuracy
+  - Confusion matrix and F1 score
+  - Human interpretation based on confusion matrix and design of the models
   
-  We start by loading the datasets (Training and Unlabeled Challenge data). Since the source files use a TSV (Tab-Separated Values) structure without headers, we manually map the columns into label and text to ensure data integrity.
-  
-  Before processing, we analyze the dataset to: 
-  Check the Class Balance.
-  ensuring a fair distribution between "Fake" and "Real" labels.
-  Identify Missing Values.
-  Detecting null entries or empty strings that could disrupt the pipeline.
-  Confirming the scale of the training vs. testing sets.
- 
-  Text Preprocessing & Normalization  reduce noise and improve model focus, we apply a dedicated cleaning function:Case Folding: Converting all text to lowercase (already present in the source, but reinforced).
-  
-  Regex Filtering: Removing special characters and numbers to keep only alphabetical characters.
-  
-  Whitespace Stripping: Removing redundant spaces and trimming edges to clean the vocabulary.
-  
-Word2Vec + XGBoostVectorization: We use a Word2Vec model to create dense word embeddings, capturing semantic relationships between words. Sentences are converted into fixed-length vectors by averaging word embeddings.Classification: We use XGBoost (Extreme Gradient Boosting) with hardware acceleration (CUDA/GPU).
+- **Reporting**
+  - Presentation to exhibit results, methodology, and findings
 
-The model is optimized with a low learning rate (0.02) and 100 estimators to prevent overfitting while capturing complex patterns.
+---
 
-TF-IDF + Naive BayesVectorization: We use the TfidfVectorizer (limited to 5,000 features) to represent text based on word importance relative to the corpus.
-Classification: A Multinomial Naive Bayes model is implemented. This is a highly efficient baseline for text classification that performs exceptionally well with sparse TF-IDF matrices. Evaluation & Strategy 
+## Project Results
 
-We use a Stratified Train-Test Split (80/20) to ensure that both sets reflect the same class proportions. Performance is measured primarily through Accuracy Score.
+- **Model chosen for prediction**
 
-Pipeline Consistency: We ensure that the .transform() method (and not .fit_transform()) is used on the validation data to avoid Data Leakage.
+TF-IDF (unigrams + bigrams) + Logistic Regression. [Notebook](https://github.com/santogatobaron/NLPchallenge/blob/main/models/model1_tfidf_logreg.ipynb) 
 
-Reproducibility: A fixed random_state=42 is used throughout the project to ensure results are consistent across different runs.
+![model](presentation/images/model1.png)
+![results](presentation/images/model1results.png)
 
-The final model generates predictions on the unlabeled challenge dataset. Results are exported in a standardized TSV format (label\ttext) without headers or indices, ready for evaluation.
+
+- **Other models**
+
+  - TF-IDF + random forest. [Notebook](https://github.com/santogatobaron/NLPchallenge/blob/main/models/model2_tfidf_ranforest.ipynb) 
+  - Word2vec + Xgboost. [Notebook](https://github.com/santogatobaron/NLPchallenge/blob/main/models/model2_tfidf_ranforest.ipynb) 
+  - TF-IDF + Naive-Bayes. [Notebook](https://github.com/santogatobaron/NLPchallenge/blob/main/models/model4_tfidf_naivebayes.ipynb) 
+
+
+---
+
+## Project Content
+
+### Description of Content Structure
+
+- **data/**
+  - Training and test data sets
+
+- **models/**
+  - The 4 models build. Titles are self-descriptive.
+
+- **predictions/**
+  - `model_predictions/`: folder containing the prediction csv files generated by all models
+  - `accuracy_estimation`: the accuracy we predict for the model chosen
+  - `predictionsModel1_tfidf_logreg`: the prediction generated by our chosen model
+
+- **presentation/**
+  - `images/`: images to support presentation and reporting.
+  - `presentation`: ppt presentation of the project.
+
+- **requirements/**
+  - The `requirements.txt` file can be used to install the environment needed to run the notebooks  
+  - It is recommended to use a **virtual environment**
+
+---
+
+## Environment Setup
+
+```bash
+python -m venv .venv
+.venv/Scripts/activate
+pip install -r requirements.txt
