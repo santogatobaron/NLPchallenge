@@ -1,93 +1,36 @@
-# Image Classification with CNN
+Fake News Detection Challenge 
 
-**IronHack AI Engineering Bootcamp – January 2026**  
-[Project in GitHub](https://github.com/biancaene/ironhack_2026_cnn_group1)
 
----
-
-## Project Goal
-
-Build a **Convolutional Neural Network (CNN)** model to correctly classify images into predefined categories.
-
-The **CIFAR-10** dataset is used for training and testing the model. It contains images belonging to the following **10 categories**.
-
-*CIFAR-10 sample*
-
-![CIFAR-10 sample](presentation/images/cifar10.png)
----
-
-## Project Overview
-
-- **CNN model creation**
-  - Data preprocessing
-  - Iterations on custom models to achieve the best classification accuracy and performance
-  - In parallel: transfer learning using the ResNet50 model
-
-- **Evaluation**
-  - Performance metrics 
-  - Human sanity check based on the confusion matrix
+ NLP Project Project OverviewThe goal of this project is to develop a robust Natural Language Processing (NLP) pipeline to classify news articles as either Real or Fake.
+ 
+  On this This project we explored different approaches for text representation and classification like Word2Vec with XGBoost and TF-IDF with Naive Bayes.
   
-- **Model deployment**
-  - Gradio demo to use the model with images submitted by the user
+  We start by loading the datasets (Training and Unlabeled Challenge data). Since the source files use a TSV (Tab-Separated Values) structure without headers, we manually map the columns into label and text to ensure data integrity.
+  
+  Before processing, we analyze the dataset to: 
+  Check the Class Balance.
+  ensuring a fair distribution between "Fake" and "Real" labels.
+  Identify Missing Values.
+  Detecting null entries or empty strings that could disrupt the pipeline.
+  Confirming the scale of the training vs. testing sets.
+ 
+  Text Preprocessing & Normalization  reduce noise and improve model focus, we apply a dedicated cleaning function:Case Folding: Converting all text to lowercase (already present in the source, but reinforced).
+  
+  Regex Filtering: Removing special characters and numbers to keep only alphabetical characters.
+  
+  Whitespace Stripping: Removing redundant spaces and trimming edges to clean the vocabulary.
+  
+Word2Vec + XGBoostVectorization: We use a Word2Vec model to create dense word embeddings, capturing semantic relationships between words. Sentences are converted into fixed-length vectors by averaging word embeddings.Classification: We use XGBoost (Extreme Gradient Boosting) with hardware acceleration (CUDA/GPU).
 
-- **Reporting**
-  - Presentation to exhibit results, methodology, and findings
+The model is optimized with a low learning rate (0.02) and 100 estimators to prevent overfitting while capturing complex patterns.
 
----
+TF-IDF + Naive BayesVectorization: We use the TfidfVectorizer (limited to 5,000 features) to represent text based on word importance relative to the corpus.
+Classification: A Multinomial Naive Bayes model is implemented. This is a highly efficient baseline for text classification that performs exceptionally well with sparse TF-IDF matrices. Evaluation & Strategy 
 
-## Project Results
+We use a Stratified Train-Test Split (80/20) to ensure that both sets reflect the same class proportions. Performance is measured primarily through Accuracy Score.
 
-- **Model**
+Pipeline Consistency: We ensure that the .transform() method (and not .fit_transform()) is used on the validation data to avoid Data Leakage.
 
-85% accuracy. 0.5 loss. 300k params. [Notebook](https://github.com/biancaene/ironhack_2026_cnn_group1/tree/main/code/model13.ipynb) 
+Reproducibility: A fixed random_state=42 is used throughout the project to ensure results are consistent across different runs.
 
-![model](presentation/images/architecture.png)
-
-- **Historic overview**
-
-[Model tracker](https://github.com/biancaene/ironhack_2026_cnn_group1/tree/main/spreadsheet)
-
-- **Deployment**
-
-![gradio_demo](deployment/screenshots/Capture_prediction_automobile.PNG)
-
-- **Transfer learning**
-
-95% accuracy. 0.16 loss. 23 mill params. [Notebook](https://github.com/biancaene/ironhack_2026_cnn_group1/tree/main/code/mainResNet50.ipynb)
-
-![transfer_learning](presentation/images/transfer.png)
-
----
-
-## Project Content
-
-### Description of Content Structure
-
-- **code/**
-  - `main`: notebook with the basic CNN used as the starting point for all other models
-  - `modelXX`: notebooks containing the rest of the models. An overview of their metrics can be found in the `spreadsheet` folder
-  - `transfer_learning.ipynb` and `mainResNet50.ipynb` are the notebooks dedicated to transfer learning
-
-- **deployment/**
-  - `deployment`: Python code to deploy the model using Gradio
-  - `pics`: images used to test the trained models
-  - `screenshots`: captures showing predicted categories for the input images
-
-- **spreadsheet/**
-  - `G1 – Model Index`: spreadsheet used to store model metrics and track progress
-
-- **trained_models/**
-  - Keras files corresponding to all trained models
-
-- **requirements/**
-  - The `requirements.txt` file can be used to install the environment needed to run the notebooks  
-  - It is recommended to use a **virtual environment**
-
----
-
-## Environment Setup
-
-```bash
-python -m venv .venv
-.venv/Scripts/activate
-pip install -r requirements.txt
+The final model generates predictions on the unlabeled challenge dataset. Results are exported in a standardized TSV format (label\ttext) without headers or indices, ready for evaluation.
