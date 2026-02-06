@@ -1,6 +1,6 @@
 # Fake news detection with NLP
 
-**IronHack AI Engineering Bootcamp – January 2026**  
+**IronHack AI Engineering Bootcamp – February 2026**  
 [Project in GitHub](https://github.com/santogatobaron/NLPchallenge)
 
 ---
