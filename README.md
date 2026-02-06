@@ -64,6 +64,7 @@ TF-IDF (unigrams + bigrams) + Logistic Regression. [Notebook](https://github.com
   - Word2vec + Xgboost. [Notebook](https://github.com/santogatobaron/NLPchallenge/blob/main/models/model2_tfidf_ranforest.ipynb) 
   - TF-IDF + Naive-Bayes. [Notebook](https://github.com/santogatobaron/NLPchallenge/blob/main/models/model4_tfidf_naivebayes.ipynb) 
 
+![modelcomparison](presentation/images/modelcomparison1.png)
 
 ---
 
