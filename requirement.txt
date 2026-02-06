@@ -1,0 +1,18 @@
+# Data Manipulation & Analysis
+pandas
+numpy
+
+# Machine Learning & Metrics
+scikit-learn
+xgboost
+
+# Deep Learning Framework (needed for GPU/CUDA detection)
+torch
+
+# Natural Language Processing
+nltk
+gensim
+
+# Visualization
+matplotlib
+seaborn
